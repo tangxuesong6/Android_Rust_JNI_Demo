@@ -7,4 +7,6 @@ public class RustNative {
     public static native String getStringFromRust();
     public static native byte[] getByteFromString(String java_str);
     public static native void  callLog();
+    public static native void  syncCallback(RustListener listener);
+
 }
