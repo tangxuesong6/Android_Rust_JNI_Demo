@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView getByteFromString;
     private TextView callLog;
     private TextView syncCallback;
+    private TextView asyncCallback;
 
     private static final String TAG = "RUST_JNI";
 
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getByteFromString = findViewById(R.id.get_byte_from_string);
         callLog = findViewById(R.id.call_log);
         syncCallback = findViewById(R.id.sync_callback);
+        asyncCallback = findViewById(R.id.async_callback);
     }
 
     private void initListener() {
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getByteFromString.setOnClickListener(this);
         callLog.setOnClickListener(this);
         syncCallback.setOnClickListener(this);
+        asyncCallback.setOnClickListener(this);
     }
 
     @Override
@@ -74,6 +77,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onVoidCallback() {
                         Log.d(TAG, "sync callback");
 
+                    }
+                });
+                break;
+            case R.id.async_callback:
+                RustNative.asyncCallback(new RustListener() {
+                    @Override
+                    public void onStringCallback(String msg) {
+                        Log.d(TAG, "async callback: " + msg);
+                    }
+
+                    @Override
+                    public void onVoidCallback() {
+                        Log.d(TAG, "async callback");
                     }
                 });
                 break;
