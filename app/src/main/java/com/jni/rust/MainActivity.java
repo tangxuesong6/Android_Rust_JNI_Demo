@@ -17,6 +17,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView callLog;
     private TextView syncCallback;
     private TextView asyncCallback;
+    private TextView javaCallSingleton;
+    private TextView rustCallSingleton;
 
     private static final String TAG = "RUST_JNI";
 
@@ -35,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         callLog = findViewById(R.id.call_log);
         syncCallback = findViewById(R.id.sync_callback);
         asyncCallback = findViewById(R.id.async_callback);
+        javaCallSingleton = findViewById(R.id.java_call_singleton);
+        rustCallSingleton = findViewById(R.id.rust_call_singleton);
     }
 
     private void initListener() {
@@ -44,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         callLog.setOnClickListener(this);
         syncCallback.setOnClickListener(this);
         asyncCallback.setOnClickListener(this);
+        javaCallSingleton.setOnClickListener(this);
+        rustCallSingleton.setOnClickListener(this);
     }
 
     @Override
@@ -92,6 +98,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Log.d(TAG, "async callback");
                     }
                 });
+                break;
+            case R.id.java_call_singleton:
+                NativeSingleton.getInstance().logIdentityHashCode();
+                break;
+            case R.id.rust_call_singleton:
+                RustNative.singleton();
                 break;
             default:
                 break;
