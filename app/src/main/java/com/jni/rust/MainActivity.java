@@ -1,5 +1,8 @@
 package com.jni.rust;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -7,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 
@@ -20,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView javaCallSingleton;
     private TextView rustCallSingleton;
     private TextView rustGetSignatureNormal;
+    private TextView javaGetSign;
 
 
     private static final String TAG = "RUST_JNI";
@@ -42,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         javaCallSingleton = findViewById(R.id.java_call_singleton);
         rustCallSingleton = findViewById(R.id.rust_call_singleton);
         rustGetSignatureNormal = findViewById(R.id.rust_get_sign_normal);
+        javaGetSign = findViewById(R.id.java_get_sign);
     }
 
     private void initListener() {
@@ -54,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         javaCallSingleton.setOnClickListener(this);
         rustCallSingleton.setOnClickListener(this);
         rustGetSignatureNormal.setOnClickListener(this);
+        javaGetSign.setOnClickListener(this);
     }
 
     @Override
@@ -113,8 +121,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String sign = RustNative.getSignatureNormal();
                 Log.d(TAG, sign);
                 break;
+            case R.id.java_get_sign:
+                String sign_by_java = getSignMd5();
+                Log.d(TAG, sign_by_java);
+                break;
             default:
                 break;
         }
+    }
+
+    public String getSignMd5() {
+        StringBuffer md5StrBuff = new StringBuffer();
+        try {
+            PackageInfo packageInfo = this.getPackageManager().getPackageInfo(this.getPackageName(), PackageManager.GET_SIGNATURES);
+            Signature[] signs = packageInfo.signatures;
+            Signature sign = signs[0];
+            MessageDigest messageDigest = null;
+            messageDigest = MessageDigest.getInstance("md5");
+            messageDigest.reset();
+            messageDigest.update(sign.toByteArray());
+            byte[] byteArray = messageDigest.digest();
+
+            for (int i = 0; i < byteArray.length; i++) {
+                if (Integer.toHexString(0xFF & byteArray[i]).length() == 1) {
+                    md5StrBuff.append("0").append(Integer.toHexString(0xFF & byteArray[i]));
+                } else {
+                    md5StrBuff.append(Integer.toHexString(0xFF & byteArray[i]));
+                }
+            }
+        } catch (PackageManager.NameNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (NoSuchAlgorithmException ex) {
+            ex.printStackTrace();
+        }
+        return md5StrBuff.toString();
     }
 }
