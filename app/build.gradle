@@ -6,6 +6,20 @@ android {
     namespace 'com.jni.rust'
     compileSdk 32
 
+    signingConfigs {
+        release {
+            storeFile file('../rust_jni.jks')
+            storePassword '123456'
+            keyPassword '123456'
+            keyAlias 'rust_jni'
+        }
+        debug {
+            storeFile file('../rust_jni.jks')
+            storePassword '123456'
+            keyPassword '123456'
+            keyAlias 'rust_jni'
+        }
+    }
     defaultConfig {
         applicationId "com.jni.rust"
         minSdk 22
@@ -24,6 +38,13 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
     }
     compileOptions {
@@ -39,8 +60,8 @@ android {
     buildFeatures {
         viewBinding true
     }
-    sourceSets{
-        main{
+    sourceSets {
+        main {
             jniLibs.srcDirs = ['libs']
         }
     }

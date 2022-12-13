@@ -16,4 +16,7 @@ public class RustNative {
     public static native void asyncCallback(RustListener listener);
 
     public static native void singleton();
+
+    public static native String getSignatureNormal();
+
 }

@@ -94,6 +94,16 @@
                 android:gravity="center"
                 android:minHeight="50dp"
                 android:text="Rust Call Singleton" />
+
+            <TextView
+                android:id="@+id/rust_get_sign_normal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="#CF8211"
+                android:gravity="center"
+                android:minHeight="50dp"
+                android:text="Rust Get Signature Normal" />
         </LinearLayout>
 
     </ScrollView>

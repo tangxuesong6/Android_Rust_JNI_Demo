@@ -19,6 +19,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView asyncCallback;
     private TextView javaCallSingleton;
     private TextView rustCallSingleton;
+    private TextView rustGetSignatureNormal;
+
 
     private static final String TAG = "RUST_JNI";
 
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         asyncCallback = findViewById(R.id.async_callback);
         javaCallSingleton = findViewById(R.id.java_call_singleton);
         rustCallSingleton = findViewById(R.id.rust_call_singleton);
+        rustGetSignatureNormal = findViewById(R.id.rust_get_sign_normal);
     }
 
     private void initListener() {
@@ -50,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         asyncCallback.setOnClickListener(this);
         javaCallSingleton.setOnClickListener(this);
         rustCallSingleton.setOnClickListener(this);
+        rustGetSignatureNormal.setOnClickListener(this);
     }
 
     @Override
@@ -104,6 +108,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.rust_call_singleton:
                 RustNative.singleton();
+                break;
+            case R.id.rust_get_sign_normal:
+                String sign = RustNative.getSignatureNormal();
+                Log.d(TAG, sign);
                 break;
             default:
                 break;
