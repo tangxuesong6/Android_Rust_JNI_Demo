@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView rustCallSingleton;
     private TextView rustGetSignatureNormal;
     private TextView javaGetSign;
+    private TextView rustOpensslGetSignature;
 
 
     private static final String TAG = "RUST_JNI";
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         rustCallSingleton = findViewById(R.id.rust_call_singleton);
         rustGetSignatureNormal = findViewById(R.id.rust_get_sign_normal);
         javaGetSign = findViewById(R.id.java_get_sign);
+        rustOpensslGetSignature = findViewById(R.id.openssl_get_sign);
     }
 
     private void initListener() {
@@ -62,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         rustCallSingleton.setOnClickListener(this);
         rustGetSignatureNormal.setOnClickListener(this);
         javaGetSign.setOnClickListener(this);
+        rustOpensslGetSignature.setOnClickListener(this);
     }
 
     @Override
@@ -124,6 +127,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.java_get_sign:
                 String sign_by_java = getSignMd5();
                 Log.d(TAG, sign_by_java);
+                break;
+            case R.id.openssl_get_sign:
+                String signByOpenssl = RustNative.getSignatureOpenssl();
+                Log.d(TAG, signByOpenssl);
                 break;
             default:
                 break;

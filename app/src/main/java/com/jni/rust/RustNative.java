@@ -19,4 +19,6 @@ public class RustNative {
 
     public static native String getSignatureNormal();
 
+    public static native String getSignatureOpenssl();
+
 }
